@@ -1,3 +1,5 @@
+using System;
+using System.Net.Mail;
 using AGRUsersAPI.Configuration;
 using AllGoRithmFramework.Domain.DataObjects;
 using AllGoRithmFramework.Domain.Entities;
@@ -5,6 +7,7 @@ using AllGoRithmFramework.Repository.Contexts;
 using AllGoRithmFramework.Service.DomainServices;
 using AllGoRithmFramework.Service.Factories;
 using Microsoft.Extensions.Options;
+using Response = AGRUsersAPI.DataObjects.Reposnse;
 
 namespace AGRUsersAPI.Services
 {
@@ -14,7 +17,7 @@ namespace AGRUsersAPI.Services
 
         protected EncryptService EncryptService { get; set; }
 
-        public UserService(IOptions<EncryptConfiguration> encryptConfiguration, IOptions<DbContextConfiguration> dbContextConfiguration) 
+        public UserService(IOptions<EncryptConfiguration> encryptConfiguration, IOptions<DbContextConfiguration> dbContextConfiguration)
             : base(new BaseContext<User>(dbContextConfiguration.Value.ConnectionString))
         {
             string iv = encryptConfiguration.Value.Iv;
@@ -24,10 +27,35 @@ namespace AGRUsersAPI.Services
             this.EncryptService = new EncryptService(key, iv);
         }
 
-        public void RegisterUser(UserDto userDto)
+        public Response.RegisterUserDto RegisterUser(UserDto userDto)
         {
+            if (this.EmailInUse(userDto.Email))
+                return new Response.RegisterUserDto().EmailInUse();
+
+            if(!this.ValidEmail(userDto.Email))
+                return new Response.RegisterUserDto().InvalidEmail();
+
+            if (this.NameInUse(userDto.UserName))
+                return new Response.RegisterUserDto().NameInUse();
+
             userDto.Password = this.EncryptService.Encrypt(userDto.Password);
-            this.Insert(this.UserFactory.Create(userDto));
+            User user = this.UserFactory.Create(userDto);
+            this.Insert(user);
+
+            return new Response.RegisterUserDto().RegisterSuccess(user.UserId, user.UserName, user.Email);
+        }
+
+        public bool ValidEmail(string email)
+        {
+            try
+            {
+                MailAddress mail = new MailAddress(email);
+                return true;
+            }
+            catch(FormatException)
+            {
+                return false;
+            }
         }
     }
 }
