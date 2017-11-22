@@ -21,7 +21,7 @@ namespace AGRUsersAPI.Services
             string key = encryptConfiguration.Value.Key;
 
             this.UserFactory = new UserFactory();
-            this.EncryptService = new EncryptService(iv, key);
+            this.EncryptService = new EncryptService(key, iv);
         }
 
         public void RegisterUser(UserDto userDto)

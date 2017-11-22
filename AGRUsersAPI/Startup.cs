@@ -9,9 +9,13 @@ namespace AGRUsersAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder().SetBasePath(environment.ContentRootPath)
+                                                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                                                    .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -36,6 +40,12 @@ namespace AGRUsersAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+            app.UseSwagger();
             app.UseMvc();
         }
     }
