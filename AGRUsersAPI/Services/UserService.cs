@@ -57,5 +57,23 @@ namespace AGRUsersAPI.Services
                 return false;
             }
         }
+
+        public bool UserNameEmailInUse(string userNameEmail)
+        {
+            if (this.ValidEmail(userNameEmail))
+                return this.EmailInUse(userNameEmail) || this.NameInUse(userNameEmail);
+            else
+                return this.NameInUse(userNameEmail);
+        }
+
+        public Response.LoginUserDto Login(string userNameEmail, string password)
+        {
+            password = this.EncryptService.Encrypt(password);
+            User user = this.GetByCredentials(userNameEmail, password);
+            if(user != null)
+                return new Response.LoginUserDto().LoginSuccess(user.UserId, user.UserName, user.Email);
+            else
+                return new Response.LoginUserDto().LoginFail();
+        }
     }
 }
