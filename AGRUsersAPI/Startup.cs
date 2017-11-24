@@ -28,7 +28,7 @@ namespace AGRUsersAPI
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "AGRUsers API", Version = "v-1.0.0-alpha" });
             });
         }
 
@@ -42,7 +42,7 @@ namespace AGRUsersAPI
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AGRUsers API");
             });
 
             app.UseSwagger();
