@@ -15,7 +15,7 @@ namespace AGRUsersAPI.DataObjects.Reposnse
         public LoginUserDto LoginSuccess(int userId, string userName, string email)
         {
             this.Success = true;
-            this.ResponseMessage = "Succes on login";
+            this.ResponseMessage = "Succes on login.";
 
             this.UserId = userId;
             this.UserName = userName;
