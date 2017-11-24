@@ -68,9 +68,28 @@ namespace AGRUsersAPI.Controllers
         [Route("Login")]
         public Response.LoginUserDto Post(string userNameEmail, string password)
         {
-            HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
+            Response.LoginUserDto loginUserResponse = new Response.LoginUserDto();
+            try
+            {
+                loginUserResponse = this.UserService.Login(userNameEmail, password);
 
-            return this.UserService.Login(userNameEmail, password);
+                if(loginUserResponse.Success)
+                {
+                    HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
+                    return loginUserResponse;
+                }
+                else
+                {
+                    HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return loginUserResponse;
+                }
+            }
+            catch(Exception ex)
+            {
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                loginUserResponse.ResponseMessage = ex.Message;
+                return loginUserResponse;
+            }
         }
     }
 }

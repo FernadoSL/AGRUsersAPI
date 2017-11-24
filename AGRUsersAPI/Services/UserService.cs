@@ -70,6 +70,7 @@ namespace AGRUsersAPI.Services
         {
             password = this.EncryptService.Encrypt(password);
             User user = this.GetByCredentials(userNameEmail, password);
+            
             if(user != null)
                 return new Response.LoginUserDto().LoginSuccess(user.UserId, user.UserName, user.Email);
             else
