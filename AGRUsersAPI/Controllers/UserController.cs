@@ -66,7 +66,7 @@ namespace AGRUsersAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public Response.LoginUserDto Post(string userNameEmail, string password)
+        public Response.LoginUserDto Post([FromHeader]string userNameEmail, [FromHeader]string password)
         {
             Response.LoginUserDto loginUserResponse = new Response.LoginUserDto();
             try
