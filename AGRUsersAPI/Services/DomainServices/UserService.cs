@@ -1,6 +1,7 @@
 using System;
 using System.Net.Mail;
 using AGRUsersAPI.Configuration;
+using AGRUsersAPI.Domain.Entities;
 using AllGoRithmFramework.Domain.DataObjects;
 using AllGoRithmFramework.Domain.Entities;
 using AllGoRithmFramework.Repository.Contexts;
@@ -9,13 +10,15 @@ using AllGoRithmFramework.Service.Factories;
 using Microsoft.Extensions.Options;
 using Response = AGRUsersAPI.DataObjects.Reposnse;
 
-namespace AGRUsersAPI.Services
+namespace AGRUsersAPI.Services.DomainServices
 {
     public class UserService : AllGoRithmFramework.Service.DomainServices.UserService
     {
         protected UserFactory UserFactory { get; set; }
 
         protected EncryptService EncryptService { get; set; }
+
+        protected UserLogService UserLogService { get; set; }
 
         public UserService(IOptions<EncryptConfiguration> encryptConfiguration, IOptions<DbContextConfiguration> dbContextConfiguration)
             : base(new BaseContext<User>(dbContextConfiguration.Value.ConnectionString))
@@ -25,6 +28,7 @@ namespace AGRUsersAPI.Services
 
             this.UserFactory = new UserFactory();
             this.EncryptService = new EncryptService(key, iv);
+            this.UserLogService = new UserLogService(new BaseContext<UserLog>(dbContextConfiguration.Value.ConnectionString));
         }
 
         public Response.RegisterUserDto RegisterUser(UserDto userDto)
@@ -32,7 +36,7 @@ namespace AGRUsersAPI.Services
             if (this.EmailInUse(userDto.Email))
                 return new Response.RegisterUserDto().EmailInUse();
 
-            if(!this.ValidEmail(userDto.Email))
+            if (!this.ValidEmail(userDto.Email))
                 return new Response.RegisterUserDto().InvalidEmail();
 
             if (this.NameInUse(userDto.UserName))
@@ -52,7 +56,7 @@ namespace AGRUsersAPI.Services
                 MailAddress mail = new MailAddress(email);
                 return true;
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 return false;
             }
@@ -70,11 +74,17 @@ namespace AGRUsersAPI.Services
         {
             password = this.EncryptService.Encrypt(password);
             User user = this.GetByCredentials(userNameEmail, password);
-            
-            if(user != null)
-                return new Response.LoginUserDto().LoginSuccess(user.UserId, user.UserName, user.Email);
+            Response.LoginUserDto result;
+
+            if (user != null)
+                result = new Response.LoginUserDto().LoginSuccess(user.UserId, user.UserName, user.Email);
             else
-                return new Response.LoginUserDto().LoginFail();
+                result = new Response.LoginUserDto().LoginFail();
+
+            if(result.Success)
+                this.UserLogService.LogLogin(user.UserId);
+
+            return result;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Net;
 using AGRUsersAPI.Configuration;
 using AGRUsersAPI.Services;
+using AGRUsersAPI.Services.DomainServices;
 using AllGoRithmFramework.Domain.DataObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
