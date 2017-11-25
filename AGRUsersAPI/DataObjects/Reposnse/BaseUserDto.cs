@@ -1,6 +1,8 @@
+using AllGoRithmFramework.Domain.DataObjects;
+
 namespace AGRUsersAPI.DataObjects.Reposnse
 {
-    public class BaseUserDto
+    public class BaseUserDto : BaseDto
     {
         public int UserId { get; set; }
 
