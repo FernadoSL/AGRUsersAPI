@@ -92,5 +92,12 @@ namespace AGRUsersAPI.Controllers
                 return loginUserResponse;
             }
         }
+
+        [HttpPost]
+        [Route("Logout")]
+        public void Post(int userId)
+        {
+            this.UserService.Logout(userId);
+        }
     }
 }

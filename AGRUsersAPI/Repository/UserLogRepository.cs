@@ -25,5 +25,10 @@ namespace AGRUsersAPI.Repository
         {
             return this.dbSet.OrderByDescending(ul => ul.LogOutDateTime).FirstOrDefault();
         }
+
+        public bool IsLogged(int userId)
+        {
+            return this.dbSet.Any(ul => ul.IsLogged);
+        }
     }
 }

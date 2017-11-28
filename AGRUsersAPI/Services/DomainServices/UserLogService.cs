@@ -25,7 +25,8 @@ namespace AGRUsersAPI.Services.DomainServices
 
         public void LogLogin(int userId)
         {
-            this.Insert(this.UserLogFactory.Create(userId).LogIn());
+            if(this.UserLogRepository.IsLogged(userId))
+                this.Insert(this.UserLogFactory.Create(userId).LogIn());
         }
 
         public void LogLogout(int userId)

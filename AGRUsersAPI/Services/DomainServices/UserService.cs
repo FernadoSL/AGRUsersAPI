@@ -86,5 +86,10 @@ namespace AGRUsersAPI.Services.DomainServices
 
             return result;
         }
+
+        public void Logout(int userId)
+        {
+            this.UserLogService.LogLogout(userId);
+        }
     }
 }
