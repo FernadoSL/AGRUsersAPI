@@ -95,9 +95,30 @@ namespace AGRUsersAPI.Controllers
 
         [HttpPost]
         [Route("Logout")]
-        public void Post(int userId)
+        public Response.LogoutUserDto Post(int userId)
         {
-            this.UserService.Logout(userId);
+            Response.LogoutUserDto logOutUserResponse = new Response.LogoutUserDto();
+            try
+            {
+                logOutUserResponse = this.UserService.Logout(userId);
+                
+                if(logOutUserResponse.Success)
+                {
+                    HttpContext.Response.StatusCode = (int)HttpStatusCode.OK;
+                    return logOutUserResponse;
+                }
+                else
+                {
+                    HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return logOutUserResponse;
+                }
+            }
+            catch(Exception ex)
+            {
+                HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                logOutUserResponse.ResponseMessage = ex.Message;
+                return logOutUserResponse;
+            }
         }
     }
 }

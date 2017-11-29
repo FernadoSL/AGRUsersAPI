@@ -29,12 +29,14 @@ namespace AGRUsersAPI.Services.DomainServices
                 this.Insert(this.UserLogFactory.Create(userId).LogIn());
         }
 
-        public void LogLogout(int userId)
+        public bool LogLogout(int userId)
         {
             UserLog userLog = this.UserLogRepository.GetLastLogin(userId);
             
             if(userLog != null)
                 this.Update(userLog.LogOut());
+
+            return userLog != null;
         }
     }
 }
