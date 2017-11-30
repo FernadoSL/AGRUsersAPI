@@ -26,7 +26,7 @@ namespace AGRUsersAPI.Domain.Entities
             get
             {
                 if (IsLogged)
-                    return 0;
+                    return DateTime.Now.Subtract(this.LogInDateTime).Minutes;
                 else
                     return this.LogOutDateTime.Value.Subtract(this.LogInDateTime).Minutes;
             }
@@ -37,7 +37,7 @@ namespace AGRUsersAPI.Domain.Entities
             get
             {
                 if (IsLogged)
-                    return 0;
+                    return DateTime.Now.Subtract(this.LogInDateTime).Hours;
                 else
                     return this.LogOutDateTime.Value.Subtract(this.LogInDateTime).Hours;
             }

@@ -1,3 +1,4 @@
+using System;
 using AGRUsersAPI.Domain.Entities;
 using AGRUsersAPI.Repository;
 using AGRUsersAPI.Services.Factories;
@@ -18,25 +19,35 @@ namespace AGRUsersAPI.Services.DomainServices
             this.UserLogFactory = new UserLogFactory();
         }
 
-        public int LoggedInUsersCount()
+        public int LoggedUsersCount()
         {
-            return this.UserLogRepository.LoggedInUsersCount();
+            return this.UserLogRepository.LoggedUsersCount();
         }
 
         public void LogLogin(int userId)
         {
-            if(this.UserLogRepository.IsLogged(userId))
+            if (this.UserLogRepository.IsLogged(userId))
                 this.Insert(this.UserLogFactory.Create(userId).LogIn());
         }
 
         public bool LogLogout(int userId)
         {
             UserLog userLog = this.UserLogRepository.GetLastLogin(userId);
-            
-            if(userLog != null)
+
+            if (userLog != null)
                 this.Update(userLog.LogOut());
 
             return userLog != null;
+        }
+
+        public int LoginCount(DateTime startDate, DateTime endDate)
+        {
+            return this.UserLogRepository.LoginCount(startDate, endDate);
+        }
+
+        public void GetAllUserLogs(int userId)
+        {
+            this.UserLogRepository.GetAllLogsById(userId);
         }
     }
 }

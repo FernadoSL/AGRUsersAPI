@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using AGRUsersAPI.Domain.Entities;
 using AllGoRithmFramework.Repository.Contexts;
@@ -11,7 +13,7 @@ namespace AGRUsersAPI.Repository
         {
         }
 
-        public int LoggedInUsersCount()
+        public int LoggedUsersCount()
         {
             return this.dbSet.Count(ul => ul.IsLogged);
         }
@@ -29,6 +31,16 @@ namespace AGRUsersAPI.Repository
         public bool IsLogged(int userId)
         {
             return this.dbSet.Any(ul => ul.IsLogged);
+        }
+
+        public int LoginCount(DateTime startDate, DateTime endDate)
+        {
+            return this.dbSet.Count(ul => ul.LogInDateTime > startDate && ul.LogInDateTime < endDate);
+        }
+
+        public List<UserLog> GetAllLogsById(int userId)
+        {
+            return this.dbSet.Where(ul => ul.UserId == userId).ToList();
         }
     }
 }
