@@ -1,11 +1,10 @@
-﻿using System;
-using System.Net;
-using AGRUsersAPI.Configuration;
-using AGRUsersAPI.Services;
-using AGRUsersAPI.Services.DomainServices;
+﻿using AGRUsersAPI.Services.DomainServices;
+using AllGoRithmFramework.Domain.Configurations;
 using AllGoRithmFramework.Domain.DataObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.Net;
 using Response = AGRUsersAPI.DataObjects.Reposnse;
 
 namespace AGRUsersAPI.Controllers

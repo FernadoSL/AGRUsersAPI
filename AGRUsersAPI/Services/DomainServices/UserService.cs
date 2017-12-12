@@ -1,13 +1,13 @@
-using System;
-using System.Net.Mail;
-using AGRUsersAPI.Configuration;
 using AGRUsersAPI.Domain.Entities;
+using AllGoRithmFramework.Domain.Configurations;
 using AllGoRithmFramework.Domain.DataObjects;
 using AllGoRithmFramework.Domain.Entities;
 using AllGoRithmFramework.Repository.Contexts;
 using AllGoRithmFramework.Service.DomainServices;
 using AllGoRithmFramework.Service.Factories;
 using Microsoft.Extensions.Options;
+using System;
+using System.Net.Mail;
 using Response = AGRUsersAPI.DataObjects.Reposnse;
 
 namespace AGRUsersAPI.Services.DomainServices
