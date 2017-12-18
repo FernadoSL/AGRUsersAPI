@@ -20,12 +20,12 @@ namespace AGRUsersAPI.Repository
 
         public UserLog GetLastLogin(int userId)
         {
-            return this.dbSet.OrderByDescending(ul => ul.LogInDateTime).FirstOrDefault();
+            return this.dbSet.OrderByDescending(ul => ul.LoginDateTime).FirstOrDefault();
         }
 
         public UserLog GetLastLogout(int userId)
         {
-            return this.dbSet.OrderByDescending(ul => ul.LogOutDateTime).FirstOrDefault();
+            return this.dbSet.OrderByDescending(ul => ul.LogoutDateTime).FirstOrDefault();
         }
 
         public bool IsLogged(int userId)
@@ -35,7 +35,7 @@ namespace AGRUsersAPI.Repository
 
         public int LoginCount(DateTime startDate, DateTime endDate)
         {
-            return this.dbSet.Count(ul => ul.LogInDateTime > startDate && ul.LogInDateTime < endDate);
+            return this.dbSet.Count(ul => ul.LoginDateTime > startDate && ul.LoginDateTime < endDate);
         }
 
         public List<UserLog> GetAllLogsById(int userId)

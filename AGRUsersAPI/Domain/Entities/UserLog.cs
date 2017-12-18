@@ -9,15 +9,15 @@ namespace AGRUsersAPI.Domain.Entities
 
         public int UserId { get; private set; }
 
-        public DateTime LogInDateTime { get; private set; }
+        public DateTime LoginDateTime { get; private set; }
 
-        public DateTime? LogOutDateTime { get; private set; }
+        public DateTime? LogoutDateTime { get; private set; }
 
         public bool IsLogged
         {
             get
             {
-                return this.LogOutDateTime.HasValue;
+                return this.LogoutDateTime.HasValue;
             }
         }
 
@@ -26,9 +26,9 @@ namespace AGRUsersAPI.Domain.Entities
             get
             {
                 if (IsLogged)
-                    return DateTime.Now.Subtract(this.LogInDateTime).Minutes;
+                    return DateTime.Now.Subtract(this.LoginDateTime).Minutes;
                 else
-                    return this.LogOutDateTime.Value.Subtract(this.LogInDateTime).Minutes;
+                    return this.LogoutDateTime.Value.Subtract(this.LoginDateTime).Minutes;
             }
         }
 
@@ -37,22 +37,22 @@ namespace AGRUsersAPI.Domain.Entities
             get
             {
                 if (IsLogged)
-                    return DateTime.Now.Subtract(this.LogInDateTime).Hours;
+                    return DateTime.Now.Subtract(this.LoginDateTime).Hours;
                 else
-                    return this.LogOutDateTime.Value.Subtract(this.LogInDateTime).Hours;
+                    return this.LogoutDateTime.Value.Subtract(this.LoginDateTime).Hours;
             }
         }
 
         public UserLog LogIn()
         {
-            this.LogInDateTime = DateTime.Now;
+            this.LoginDateTime = DateTime.Now;
 
             return this;
         }
 
         public UserLog LogOut()
         {
-            this.LogOutDateTime = DateTime.Now;
+            this.LogoutDateTime = DateTime.Now;
 
             return this;
         }
