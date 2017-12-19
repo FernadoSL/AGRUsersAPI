@@ -1,5 +1,5 @@
-using System;
 using AllGoRithmFramework.Domain.DataObjects;
+using System;
 
 namespace AGRUsersAPI.DataObjects.Reposnse
 {
