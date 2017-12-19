@@ -13,7 +13,7 @@ namespace AGRUsersAPI.Controllers
     [Route("api/User")]
     public class UserController : Controller
     {
-        protected UserService UserService { get; set; }
+        private UserService UserService { get; set; }
 
         public UserController(IOptions<EncryptConfiguration> encryptConfiguration, IOptions<DbContextConfiguration> dbContextConfiguration)
         {
@@ -22,7 +22,7 @@ namespace AGRUsersAPI.Controllers
 
         [HttpGet]
         [Route("ExistentUserNameEmail")]
-        public bool Get(string userNameEmail)
+        public bool ExistentUserNameEmail(string userNameEmail)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace AGRUsersAPI.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public Response.RegisterUserDto Post([FromBody]UserDto user)
+        public Response.RegisterUserDto Register([FromBody]UserDto user)
         {
             Response.RegisterUserDto registerUserResponse = new Response.RegisterUserDto();
 
@@ -66,9 +66,10 @@ namespace AGRUsersAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public Response.LoginUserDto Post([FromHeader]string userNameEmail, [FromHeader]string password)
+        public Response.LoginUserDto Login([FromHeader]string userNameEmail, [FromHeader]string password)
         {
             Response.LoginUserDto loginUserResponse = new Response.LoginUserDto();
+
             try
             {
                 loginUserResponse = this.UserService.Login(userNameEmail, password);
@@ -94,9 +95,10 @@ namespace AGRUsersAPI.Controllers
 
         [HttpPost]
         [Route("Logout")]
-        public Response.LogoutUserDto Post(int userId)
+        public Response.LogoutUserDto Logout(int userId)
         {
             Response.LogoutUserDto logOutUserResponse = new Response.LogoutUserDto();
+
             try
             {
                 logOutUserResponse = this.UserService.Logout(userId);
