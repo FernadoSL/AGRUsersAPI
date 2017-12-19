@@ -48,20 +48,7 @@ namespace AGRUsersAPI.Services.DomainServices
 
             return new Response.RegisterUserDto().RegisterSuccess(user.UserId, user.UserName, user.Email);
         }
-
-        public bool ValidEmail(string email)
-        {
-            try
-            {
-                MailAddress mail = new MailAddress(email);
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-        }
-
+        
         public bool UserNameEmailInUse(string userNameEmail)
         {
             if (this.ValidEmail(userNameEmail))
@@ -82,7 +69,7 @@ namespace AGRUsersAPI.Services.DomainServices
                 result = new Response.LoginUserDto().LoginFail();
 
             if(result.Success)
-                this.UserLogService.LogLogin(user.UserId);
+                this.UserLogService.LogLogin(result.UserId);
 
             return result;
         }
@@ -102,6 +89,19 @@ namespace AGRUsersAPI.Services.DomainServices
             }
             
             return result;
+        }
+
+        private bool ValidEmail(string email)
+        {
+            try
+            {
+                MailAddress mail = new MailAddress(email);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
     }
 }
