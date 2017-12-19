@@ -1,5 +1,5 @@
-﻿using System;
-using AllGoRithmFramework.Domain.Entities;
+﻿using AllGoRithmFramework.Domain.Entities;
+using System;
 
 namespace AGRUsersAPI.Domain.Entities
 {
@@ -17,7 +17,7 @@ namespace AGRUsersAPI.Domain.Entities
         {
             get
             {
-                return this.LogoutDateTime.HasValue;
+                return !this.LogoutDateTime.HasValue;
             }
         }
 
