@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AGRUsersAPI.Domain.Entities;
 using AllGoRithmFramework.Repository.Contexts;
 using AllGoRithmFramework.Repository.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AGRUsersAPI.Repository
 {
@@ -27,12 +27,7 @@ namespace AGRUsersAPI.Repository
         {
             return this.dbSet.OrderByDescending(ul => ul.LogoutDateTime).FirstOrDefault();
         }
-
-        public bool IsLogged(int userId)
-        {
-            return this.dbSet.Any(ul => ul.IsLogged);
-        }
-
+        
         public int LoginCount(DateTime startDate, DateTime endDate)
         {
             return this.dbSet.Count(ul => ul.LoginDateTime > startDate && ul.LoginDateTime < endDate);

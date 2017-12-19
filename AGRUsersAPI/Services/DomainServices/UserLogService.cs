@@ -1,9 +1,9 @@
-using System;
 using AGRUsersAPI.Domain.Entities;
 using AGRUsersAPI.Repository;
 using AGRUsersAPI.Services.Factories;
 using AllGoRithmFramework.Repository.Contexts;
 using AllGoRithmFramework.Service.DomainServices;
+using System;
 
 namespace AGRUsersAPI.Services.DomainServices
 {
@@ -26,8 +26,7 @@ namespace AGRUsersAPI.Services.DomainServices
 
         public void LogLogin(int userId)
         {
-            if (this.UserLogRepository.IsLogged(userId))
-                this.Insert(this.UserLogFactory.Create(userId).LogIn());
+            this.Insert(this.UserLogFactory.Create(userId).LogIn());
         }
 
         public bool LogLogout(int userId)
