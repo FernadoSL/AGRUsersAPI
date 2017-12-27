@@ -1,4 +1,5 @@
-﻿using AGRUsersAPI.Services.DomainServices;
+﻿using AGRUsersAPI.Filters;
+using AGRUsersAPI.Services.DomainServices;
 using AllGoRithmFramework.Domain.Configurations;
 using AllGoRithmFramework.Domain.DataObjects;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace AGRUsersAPI.Controllers
 {
     [Produces("application/json")]
     [Route("api/User")]
+    [AuthTokenFilter]
     public class UserController : Controller
     {
         private UserService UserService { get; set; }
